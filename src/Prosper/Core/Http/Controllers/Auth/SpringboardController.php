@@ -29,10 +29,19 @@ class SpringboardController extends Controller
     {
         $projects = app('auth')->user()->projects;
 
+        // When the user does not have previously
+        // created projects we need to create one.
         if ($projects->isEmpty()) {
             return redirect()->to(prosper_route('auth.springboard.create'));
         }
 
+        // Just sign into the first project if the user
+        // only has one project to choose from.
+        if ($projects->count() == 1) {
+            return $this->open($projects->first());
+        }
+
+        // ... Saul Goodman
         return view('prosper.core::screens.auth.springboard.show')->with([
             'projects' => $projects
         ]);
