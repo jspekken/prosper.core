@@ -54,6 +54,10 @@ class ServiceProvider extends Package
         Project::class => ProjectPolicy::class
     ];
 
+    protected $events = [
+        \Illuminate\Auth\Events\Logout::class => \Prosper\Core\Listeners\Auth\Logout::class
+    ];
+
     /**
      * Boot the package.
      */
