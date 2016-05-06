@@ -17,6 +17,16 @@ app('router')->group(['namespace' => 'Prosper\Core\Http\Controllers'], function 
         'uses' => 'Auth\SpringboardController@index'
     ]);
 
+    app('router')->get('springboard/create', [
+        'as'   => prosper_route_string('auth.springboard.create'),
+        'uses' => 'Auth\SpringboardController@create'
+    ]);
+
+    app('router')->post('springboard/create', [
+        'as'   => prosper_route_string('auth.springboard.store'),
+        'uses' => 'Auth\SpringboardController@store'
+    ]);
+
     app('router')->get('springboard/{project}', [
         'as'   => prosper_route_string('auth.springboard.open'),
         'uses' => 'Auth\SpringboardController@open'
