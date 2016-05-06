@@ -50,7 +50,8 @@ class Router
                     ->discoverLanguage()
                     ->discoverPage();
             } catch (\Exception $e) {
-                abort(404);
+                // Try it all, catch nothing...
+                // (I know, I know)
             }
         }
     }
