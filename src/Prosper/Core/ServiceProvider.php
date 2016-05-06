@@ -11,6 +11,7 @@ namespace Prosper\Core;
  * file that was distributed with this source code.
  */
 
+use Illuminate\Auth\Events\Logout as LogoutEvent;
 use Prosper\Core\Database\Models\Project;
 use Prosper\Core\Policies\ProjectPolicy;
 
@@ -59,7 +60,7 @@ class ServiceProvider extends Package
      * @var array
      */
     protected $events = [
-        \Illuminate\Auth\Events\Logout::class => \Prosper\Core\Listeners\Auth\Logout::class
+        LogoutEvent::class => Listeners\Auth\Logout::class
     ];
 
     /**
