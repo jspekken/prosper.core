@@ -24,9 +24,13 @@ class IndexEntity extends Controller
     public function index(Mapper $mapper)
     {
         $mapper->add('layout.grid.row', function ($row) {
-            $row->add('layout.grid.column', [
-                'width' => 'sm-12'
-            ]);
+            $row->add('layout.grid.column', function ($column) {
+
+                $column->add('content.title', [
+                    'text' => 'Website management'
+                ]);
+
+            });
         });
     }
 }

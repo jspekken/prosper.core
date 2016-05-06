@@ -1,3 +1,5 @@
 <div class="col-{{ $node->width }}">
-    test
+    @foreach ($node->getChildren() as $child)
+        {!! $child->render() !!}
+    @endforeach
 </div>
