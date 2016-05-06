@@ -42,7 +42,7 @@ trait Revisionable
      *
      * @return array
      */
-    protected function getRevisionEvents()
+    protected static function getRevisionEvents()
     {
         if (isset(static::$revisionEvents)) {
             return static::$revisionEvents;
