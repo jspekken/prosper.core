@@ -1,0 +1,24 @@
+{
+  "name": "prosper/core",
+  "description": "Prosper Core",
+  "keyworkds": [
+    "cms",
+    "laravel",
+    "prosper",
+    "core"
+  ],
+  "type": "framework",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "require-dev": {
+    "fabpot/php-cs-fixer": "dev-master",
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Prosper\\Core\\": "src/Prosper/Core"
+    }
+  }
+}
