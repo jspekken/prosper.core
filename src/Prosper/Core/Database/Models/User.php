@@ -47,4 +47,16 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = app('hash')->make($password);
     }
+
+    /**
+     * Get the gravatar url for this user.
+     *
+     * @return string
+     */
+    public function getGravatarAttribute()
+    {
+        $hash = md5(strtolower(trim($this->email)));
+
+        return sprintf('http://www.gravatar.com/avatar/%s?s=40&d=mm&r=g', $hash);
+    }
 }
