@@ -41,8 +41,8 @@ class Router
      */
     public function __construct()
     {
-        // Only do the discovery of websites, languages
-        // and pages whilst on the frontend context.
+        // Only do the discovery of websites, languages and pages whilst
+        // on the frontend context and running in a browser.
         if (app('prosper.context') == Context::FRONTEND && !app()->runningInConsole()) {
             try {
                 $this
