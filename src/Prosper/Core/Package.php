@@ -63,6 +63,12 @@ class Package extends ServiceProvider
      */
     protected $policies = [];
 
+    /**
+     * Event listeners.
+     * @var array
+     */
+    protected $events = [];
+
     /** {@inheritdoc} */
     public function boot()
     {
@@ -70,6 +76,7 @@ class Package extends ServiceProvider
 
         $this->registerViewNamespaces($this->views);
         $this->registerPolicies($this->policies);
+        $this->registerEventListeners($this->events);
 
         if (method_exists($this, 'bootPackage')) {
             $this->bootPackage();
@@ -182,6 +189,22 @@ class Package extends ServiceProvider
     {
         foreach ($menus as $menu) {
             require_once $menu;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register event listeners.
+     *
+     * @param  array  $listeners
+     *
+     * @return $this
+     */
+    protected function registerEventListeners($listeners)
+    {
+        foreach ($listeners as $event => $listener) {
+            app('events')->listen($event, $listener);
         }
 
         return $this;
