@@ -30,7 +30,13 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
             $status  = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
             $headers = method_exists($e, 'getHeaders') ? $e->getHeaders() : [];
 
-            return response()->make(view('prosper.core::errors.' . $status), $status, $headers);
+            return response()->make(
+                view('prosper.core::errors.' . $status)->with([
+                    'exception' => $e
+                ]),
+                $status,
+                $headers
+            );
         }
 
         return parent::convertExceptionToResponse($e);
