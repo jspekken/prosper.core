@@ -34,6 +34,14 @@ class Page extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
      * Scope the query by active items.
      *
      * @param  \Illuminate\Database\Query\Builder  $query

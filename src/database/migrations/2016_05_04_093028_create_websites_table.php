@@ -26,11 +26,16 @@ class CreateWebsitesTable extends Migration
     {
         Schema::create('websites', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('project_id')->unsigned();
             $table->integer('language_id')->unsigned();
             $table->string('name');
             $table->string('domain');
             $table->tinyInteger('is_active');
             $table->timestamps();
+
+            $table->foreign('project_id')
+                ->references('id')->on('projects')
+                ->onDelete('cascade');
 
             $table->foreign('language_id')
                 ->references('id')->on('languages')

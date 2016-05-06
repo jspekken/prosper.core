@@ -26,11 +26,16 @@ class CreateLanguagesTable extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('project_id')->unsigned();
             $table->string('name');
             $table->string('locale');
             $table->tinyInteger('is_active');
             $table->tinyInteger('is_default');
             $table->timestamps();
+
+            $table->foreign('project_id')
+                ->references('id')->on('projects')
+                ->onDelete('cascade');
         });
     }
 

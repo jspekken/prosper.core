@@ -26,11 +26,16 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('project_id')->unsigned();
             $table->integer('website_id')->unsigned();
             $table->string('name');
             $table->string('slug');
             $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
+
+            $table->foreign('project_id')
+                ->references('id')->on('projects')
+                ->onDelete('cascade');
 
             $table->foreign('website_id')
                 ->references('id')->on('websites')
