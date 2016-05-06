@@ -11,6 +11,7 @@ namespace Prosper\Core\Database\Models;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Database\Traits\Revisionable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Page extends Model
 {
+
+    use Revisionable;
 
     /**
      * Mass-assignment protection.

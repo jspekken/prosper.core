@@ -11,31 +11,38 @@ namespace Prosper\Core\Database\Models;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\Database\Traits\Revisionable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Project
+ * Class Revision
  * @package Prosper\Core\Database\Models
  */
-class Project extends Model
+class Revision extends Model
 {
-
-    use Revisionable;
 
     /**
      * Mass-assignment protection.
      * @var array
      */
     protected $fillable = [
-        'name'
+        'subject_id',
+        'subject_type',
+        'event'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(config('auth.providers.users.model'));
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function subject()
+    {
+        return $this->morphTo();
     }
 }
