@@ -36,18 +36,5 @@ return [
             Prosper\Core\Http\Middleware\Springboard::class
         ]
         // ...
-    ],
-
-    /*
-     * Alias registration.
-     * Aliases will not be instantiated on load and only on the first method call.
-     * @var array
-     */
-    'aliases' => [
-        'prosper.view'   => Prosper\Core\View\Manager::class,
-        'prosper.router' => Prosper\Core\Http\Router::class,
-        'prosper.ui'     => Prosper\Core\View\UI\Factory::class
-
-        // ...
     ]
 ];

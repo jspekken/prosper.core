@@ -22,6 +22,13 @@ class Package extends ServiceProvider
 {
 
     /**
+     * Alias registration.
+     * Aliases will not be instantiated on load and only on the first method call.
+     * @var array
+     */
+    protected $aliases = [];
+
+    /**
      * Holds the Gate instance.
      * @var null|\Illuminate\Contracts\Auth\Access\Gate
      */
@@ -90,6 +97,7 @@ class Package extends ServiceProvider
     {
         $this->mergeConfigFiles($this->config);
         $this->commands($this->commands);
+        $this->registerAliases($this->aliases);
 
         if (method_exists($this, 'registerPackage')) {
             $this->registerPackage();

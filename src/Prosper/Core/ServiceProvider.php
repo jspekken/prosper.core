@@ -23,6 +23,16 @@ class ServiceProvider extends Package
 {
 
     /**
+     * Register the package aliases.
+     * @var array
+     */
+    protected $aliases = [
+        'prosper.router' => Http\Router::class,
+        'prosper.view'   => View\Manager::class,
+        'prosper.ui'     => View\UI\Factory::class
+    ];
+
+    /**
      * Register the package configurations.
      * @var array
      */
@@ -84,8 +94,6 @@ class ServiceProvider extends Package
         $this->app['prosper.context'] = app('request')->segment(1) === config('prosper.core.uri')
             ? Context::BACKEND
             : Context::FRONTEND;
-
-        $this->registerAliases(config('prosper.core.aliases'));
 
         require_once __DIR__ . '/helpers.php';
     }
