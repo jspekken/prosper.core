@@ -11,9 +11,9 @@
 
 app('router')->group(['namespace' => 'Prosper\Core\Http\Controllers'], function () {
 
-    require_once __DIR__ . '/routes/auth.php';
-    require_once __DIR__ . '/routes/dashboard.php';
-    require_once __DIR__ . '/routes/users.php';
-    require_once __DIR__ . '/routes/websites.php';
+    require __DIR__ . '/routes/auth.php';
+    require __DIR__ . '/routes/dashboard.php';
+    require __DIR__ . '/routes/modules.php';
+    require __DIR__ . '/routes/users.php';
 
 });

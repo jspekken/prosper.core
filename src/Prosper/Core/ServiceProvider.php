@@ -28,8 +28,7 @@ class ServiceProvider extends Package
      */
     protected $aliases = [
         'prosper.router' => Http\Router::class,
-        'prosper.view'   => View\Manager::class,
-        'prosper.ui'     => View\UI\Factory::class
+        'prosper.view'   => View\Manager::class
     ];
 
     /**
@@ -37,8 +36,8 @@ class ServiceProvider extends Package
      * @var array
      */
     protected $config = [
-        'prosper.core' => __DIR__ . '/../../config/core.php',
-        'prosper.ui'   => __DIR__ . '/../../config/ui.php'
+        'prosper.admin' => __DIR__ . '/../../config/admin.php',
+        'prosper.core'  => __DIR__ . '/../../config/core.php'
     ];
 
     /**

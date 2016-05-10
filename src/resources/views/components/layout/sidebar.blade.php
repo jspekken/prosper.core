@@ -3,7 +3,6 @@
 </ul>
 
 <ul class="nav nav-pills nav-stacked">
-    <li><a href="{{ prosper_route('websites.index') }}">Websites</a></li>
     <li><a href="{{ prosper_route('users.index') }}">User management</a></li>
 </ul>
 

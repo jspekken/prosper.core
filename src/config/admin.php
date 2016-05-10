@@ -9,4 +9,13 @@
  * file that was distributed with this source code.
  */
 
-app('router')->resource('websites', 'Websites\IndexController');
+return [
+
+    'controllers' => [
+        'pages' => Prosper\Core\View\Admin\Controllers\PageController::class
+    ],
+
+    'fields' => [
+        'text' => Prosper\Core\View\Admin\Fields\TextField::class
+    ]
+];

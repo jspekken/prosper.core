@@ -41,3 +41,11 @@ if (!function_exists('prosper_route')) {
         return route(prosper_route_string($name), $parameters, $absolute, $route);
     }
 }
+
+if (!function_exists('admin')) {
+
+    function admin($entity, $action = null)
+    {
+        return Prosper\Core\View\Admin\Factory::make($entity, $action);
+    }
+}
