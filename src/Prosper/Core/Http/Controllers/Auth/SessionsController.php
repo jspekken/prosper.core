@@ -46,7 +46,9 @@ class SessionsController extends Controller
             return redirect()->intended(config('prosper.core.uri'));
         }
 
-        return redirect()->back()->withInput();
+        return redirect()->back()->withInput()->withErrors([
+            'email' => 'These credentials do not match our records.'
+        ]);
     }
 
     /**

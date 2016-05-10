@@ -6,6 +6,16 @@
         <div class="row">
             <div class="col-sm-12 col-md-4 col-md-offset-4">
 
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form method="post" action="{{ prosper_route('auth.sessions.store') }}">

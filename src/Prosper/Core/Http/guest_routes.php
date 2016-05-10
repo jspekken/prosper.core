@@ -12,23 +12,11 @@
 app('router')->group(['namespace' => 'Prosper\Core\Http\Controllers'], function () {
     app('router')->resource('auth/sessions', 'Auth\SessionsController');
 
-    app('router')->get('springboard', [
-        'as'   => prosper_route_string('auth.springboard.index'),
-        'uses' => 'Auth\SpringboardController@index'
+    // Override GET: auth/sessions/create
+    app('router')->get('sign-in', [
+        'as'   => prosper_route_string('auth.sessions.create'),
+        'uses' => 'Auth\SessionsController@create'
     ]);
 
-    app('router')->get('springboard/create', [
-        'as'   => prosper_route_string('auth.springboard.create'),
-        'uses' => 'Auth\SpringboardController@create'
-    ]);
-
-    app('router')->post('springboard/create', [
-        'as'   => prosper_route_string('auth.springboard.store'),
-        'uses' => 'Auth\SpringboardController@store'
-    ]);
-
-    app('router')->get('springboard/{project}', [
-        'as'   => prosper_route_string('auth.springboard.open'),
-        'uses' => 'Auth\SpringboardController@open'
-    ]);
+    require __DIR__ . '/routes/springboard.php';
 });
