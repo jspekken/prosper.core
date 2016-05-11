@@ -49,6 +49,12 @@ class Controller
     protected $builder = null;
 
     /**
+     * Holds the current view path.
+     * @var null|string
+     */
+    protected $view = null;
+
+    /**
      * Get the current Eloquent model instance.
      *
      * @return null|Model
@@ -188,9 +194,9 @@ class Controller
 
     }
 
-    public function render()
+    public function render($view = null)
     {
-        return view($this->getView())->with([
+        return view($view ?: $this->getView())->with([
             'controller' => $this,
             'mapper'     => $this->getMapper(),
             'builder'    => $this->getBuilder()
@@ -199,8 +205,6 @@ class Controller
 
     protected function getView()
     {
-        return property_exists($this, 'view')
-            ? $this->view
-            : sprintf('prosper.core::screens.admin.' . $this->getAction());
+        return $this->view ?: sprintf('prosper.core::screens.admin.' . $this->getAction());
     }
 }
