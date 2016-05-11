@@ -1,5 +1,7 @@
 <?php
 
+namespace Prosper\Core\Admin\Fields;
+
 /**
  * This file is part of the Prosper/Core package.
  *
@@ -9,13 +11,11 @@
  * file that was distributed with this source code.
  */
 
-return [
+/**
+ * Class TextField
+ * @package Prosper\Core\Admin\Fields
+ */
+class TextField extends Field
+{
 
-    'controllers' => [
-        'pages' => Prosper\Core\Admin\Controllers\PageController::class
-    ],
-
-    'fields' => [
-        'text' => Prosper\Core\Admin\Fields\TextField::class
-    ]
-];
+}

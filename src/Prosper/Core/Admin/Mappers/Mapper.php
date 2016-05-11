@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\View\Admin\Mappers;
+namespace Prosper\Core\Admin\Mappers;
 
 abstract class Mapper
 {
@@ -19,5 +19,10 @@ abstract class Mapper
         $this->fields->put($arguments['name'], new $namespace($arguments));
 
         return $this;
+    }
+
+    public function all()
+    {
+        return $this->fields;
     }
 }

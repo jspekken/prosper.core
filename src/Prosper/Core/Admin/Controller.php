@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\View\Admin;
+namespace Prosper\Core\Admin;
 
 /**
  * This file is part of the Prosper/Core package.
@@ -11,17 +11,24 @@ namespace Prosper\Core\View\Admin;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\View\Admin\Builders\ListBuilder;
-use Prosper\Core\View\Admin\Mappers\ListMapper;
-use Prosper\Core\View\Admin\Builders\Builder;
-use Prosper\Core\View\Admin\Mappers\Mapper;
+use Prosper\Core\Admin\Builders\ListBuilder;
+use Prosper\Core\Admin\Mappers\ListMapper;
+use Prosper\Core\Admin\Builders\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Prosper\Core\Admin\Mappers\Mapper;
 
 /**
  * Class Controller
- * @package Prosper\Core\View\Admin
+ * @package Prosper\Core\Admin
  */
 class Controller
 {
+
+    /**
+     * The model instance.
+     * @var null|Model
+     */
+    protected $model = null;
 
     /**
      * The current action name.
@@ -40,6 +47,28 @@ class Controller
      * @var null|Builder
      */
     protected $builder = null;
+
+    /**
+     * Get the current Eloquent model instance.
+     *
+     * @return null|Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the current Eloquent model instance.
+     *
+     * @param  Model  $model
+     *
+     * @return $this
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+    }
 
     /**
      * Get the current executing action name.
@@ -144,7 +173,7 @@ class Controller
         $this->setMapper($mapper = new ListMapper);
         $this->configureList($mapper);
 
-        $this->setBuilder((new ListBuilder($mapper))->build());
+        $this->setBuilder((new ListBuilder($this, $mapper))->build());
 
         return $this;
     }

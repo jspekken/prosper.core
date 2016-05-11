@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\View\Admin\Builders;
+namespace Prosper\Core\Admin\Builders;
 
 /**
  * This file is part of the Prosper/Core package.
@@ -11,11 +11,12 @@ namespace Prosper\Core\View\Admin\Builders;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\View\Admin\Mappers\Mapper;
+use Prosper\Core\Admin\Mappers\Mapper;
+use Prosper\Core\Admin\Controller;
 
 /**
  * Class Builder
- * @package Prosper\Core\View\Admin\Builders
+ * @package Prosper\Core\Admin\Builders
  */
 abstract class Builder
 {
@@ -27,6 +28,12 @@ abstract class Builder
     public $data = null;
 
     /**
+     * The controller instance.
+     * @var null|Controller
+     */
+    protected $controller = null;
+
+    /**
      * The current Mapper instance.
      * @var null|Mapper
      */
@@ -35,19 +42,46 @@ abstract class Builder
     /**
      * Builder constructor.
      *
-     * @param  Mapper  $mapper
+     * @param  Controller  $controller
+     * @param  Mapper      $mapper
      */
-    public function __construct(Mapper $mapper)
+    public function __construct(Controller $controller, Mapper $mapper)
     {
         $this->data = collect();
 
-        $this->setMapper($mapper);
+        $this
+            ->setController($controller)
+            ->setMapper($mapper);
     }
 
     /**
      * @return mixed
      */
     abstract public function build();
+
+    /**
+     * Get the Controller instance.
+     *
+     * @return null|Controller
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    /**
+     * Set the Controller instance.
+     *
+     * @param  Controller  $controller
+     *
+     * @return $this
+     */
+    public function setController(Controller $controller)
+    {
+        $this->controller = $controller;
+
+        return $this;
+    }
 
     /**
      * Get the current Mapper instance.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\View\Admin\Controllers;
+namespace Prosper\Core\Admin\Controllers;
 
 /**
  * This file is part of the Prosper/Core package.
@@ -11,13 +11,13 @@ namespace Prosper\Core\View\Admin\Controllers;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\View\Admin\Mappers\Mapper;
-use Prosper\Core\View\Admin\Controller;
 use Prosper\Core\Database\Models\Page;
+use Prosper\Core\Admin\Mappers\Mapper;
+use Prosper\Core\Admin\Controller;
 
 /**
  * Class PageController
- * @package Prosper\Core\View\Admin\Controllers
+ * @package Prosper\Core\Admin\Controllers
  */
 class PageController extends Controller
 {
@@ -35,6 +35,6 @@ class PageController extends Controller
      */
     public function configureList(Mapper $mapper)
     {
-        $mapper->add('text', ['name' => 'text']);
+        $mapper->add('text', ['name' => 'name']);
     }
 }
