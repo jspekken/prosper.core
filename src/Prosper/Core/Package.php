@@ -12,13 +12,12 @@ namespace Prosper\Core;
  */
 
 use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class Package
  * @package Prosper\Core
  */
-class Package extends ServiceProvider
+class Package extends \Illuminate\Support\ServiceProvider
 {
 
     /**

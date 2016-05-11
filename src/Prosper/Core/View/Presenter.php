@@ -18,14 +18,16 @@ namespace Prosper\Core\View;
 abstract class Presenter
 {
 
+    protected $presenterEntity;
+
     /**
      * Presenter constructor.
      *
-     * @param  mixed  $entity
+     * @param  mixed  $presenterEntity
      */
-    public function __construct($entity)
+    public function __construct($presenterEntity)
     {
-        $this->entity = $entity;
+        $this->presenterEntity = $presenterEntity;
     }
 
     /**
@@ -41,6 +43,6 @@ abstract class Presenter
             return $this->{$property}();
         }
 
-        return $this->entity->{$property};
+        return $this->presenterEntity->{$property};
     }
 }

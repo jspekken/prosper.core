@@ -25,6 +25,12 @@ trait Presentable
     protected $presenterInstance;
 
     /**
+     * Holds the presenter class name.
+     * @var mixed
+     */
+    protected $presenter = null;
+
+    /**
      * Prepare a new or 'cached' presenter instance
      *
      * @return mixed
