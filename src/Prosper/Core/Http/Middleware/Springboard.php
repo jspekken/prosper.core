@@ -33,8 +33,8 @@ class Springboard
         // Whenever we're viewing anything on the backend and
         // we're logged in, we need to check some stuff.
         if (app('prosper.context') == Context::BACKEND && app('auth')->check()) {
-
-            // Do nothing when the current user is viewing the springboard screen.
+            // Do nothing when the current user is
+            // viewing the springboard screen.
             if (app('request')->segment(2) != 'springboard') {
                 $project = session('prosper.project');
 
