@@ -11,12 +11,18 @@ namespace Prosper\Core\Admin\Fields;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Admin\Mappers\Mapper;
+
 /**
  * Class Field
  * @package Prosper\Core\Admin\Fields
  */
 abstract class Field
 {
+
+    const CONTEXT_LIST   = 'list';
+    const CONTEXT_FORM   = 'form';
+    const CONTEXT_FILTER = 'filter';
 
     /**
      * Holds the field properties.
@@ -25,15 +31,30 @@ abstract class Field
     protected $properties = [];
 
     /**
+     * Holds the Mapper instance.
+     * @var Mapper
+     */
+    protected $mapper;
+
+    /**
+     * Holds the current context.
+     * @var string
+     */
+    protected $context = self::CONTEXT_LIST;
+
+    /**
      * Field constructor.
      *
-     * @param  array  $properties
+     * @param  Mapper  $mapper
+     * @param  array   $properties
      */
-    public function __construct(array $properties = [])
+    public function __construct(Mapper $mapper, array $properties = [])
     {
         foreach ($properties as $property => $value) {
             $this->$property = $value;
         }
+
+        $this->setMapper($mapper);
     }
 
     /**
@@ -71,5 +92,111 @@ abstract class Field
         }
 
         $this->properties[$property] = $value;
+    }
+
+    /**
+     * Check that a property is set.
+     *
+     * @param  string  $property
+     *
+     * @return bool
+     */
+    public function __isset($property)
+    {
+        return isset($this->properties[$property]);
+    }
+
+    /**
+     * Get the Mapper instance.
+     *
+     * @return Mapper
+     */
+    public function getMapper()
+    {
+        return $this->mapper;
+    }
+
+    /**
+     * Set the Mapper instance.
+     *
+     * @param  Mapper  $mapper
+     *
+     * @return $this
+     */
+    public function setMapper($mapper)
+    {
+        $this->mapper = $mapper;
+
+        return $this;
+    }
+
+    /**
+     * Get the Controller instance.
+     *
+     * @return null|\Prosper\Core\Admin\Controller
+     */
+    public function getController()
+    {
+        return $this->getMapper()->getController();
+    }
+
+    /**
+     * Get the module identifier.
+     *
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->getController()->getModule();
+    }
+
+    /**
+     * Try to get the label property. If it's
+     * not set, return the field name.
+     *
+     * @return mixed|string
+     */
+    public function getLabel()
+    {
+        return isset($this->label)
+            ? $this->properties['label']
+            : title_case($this->name);
+    }
+
+    /**
+     * Render the field.
+     *
+     * @return string
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function render()
+    {
+        return view($this->getView(), [
+            'field' => $this
+        ])->render();
+    }
+
+    /**
+     * Get the view name.
+     *
+     * @return string
+     */
+    protected function getView()
+    {
+        return property_exists($this, 'view')
+            ? $this->view
+            : sprintf('prosper.core::components.admin.fields.' . $this->disectFieldname());
+    }
+
+    /**
+     * Disect the classname of the current field
+     * to get the name of the field.
+     *
+     * @return string
+     */
+    protected function disectFieldName()
+    {
+        return snake_case(str_replace_last('Field', '', class_basename($this)), '-');
     }
 }
