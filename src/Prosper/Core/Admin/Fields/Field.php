@@ -164,6 +164,27 @@ abstract class Field
     }
 
     /**
+     * Get the field value. Whenever a 'before' property is set on the
+     * field that property will be executed as a closure and the
+     * returned value will be the new field value.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        $value = $this->properties['value'];
+
+        // Try to get call the before closure.
+        if (isset($this->before) && is_callable($this->before)) {
+            $closure = $this->properties['before'];
+
+            $value = $closure($value);
+        }
+
+        return $value;
+    }
+
+    /**
      * Render the field.
      *
      * @return string
