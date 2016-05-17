@@ -55,9 +55,11 @@ abstract class Builder
     }
 
     /**
+     * @param  mixed  $key
+     *
      * @return mixed
      */
-    abstract public function build();
+    abstract public function build($key = null);
 
     /**
      * Get the Controller instance.

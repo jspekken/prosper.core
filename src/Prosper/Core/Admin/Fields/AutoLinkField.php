@@ -22,7 +22,7 @@ class AutoLinkField extends Field
      * Default field properties.
      * @var array
      */
-    protected $properties = [
+    public $properties = [
         'resource' => 'edit'
     ];
 

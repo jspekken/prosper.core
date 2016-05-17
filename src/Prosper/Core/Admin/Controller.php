@@ -12,7 +12,9 @@ namespace Prosper\Core\Admin;
  */
 
 use Prosper\Core\Admin\Builders\ListBuilder;
+use Prosper\Core\Admin\Builders\FormBuilder;
 use Prosper\Core\Admin\Mappers\ListMapper;
+use Prosper\Core\Admin\Mappers\FormMapper;
 use Prosper\Core\Admin\Builders\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Prosper\Core\Admin\Mappers\Mapper;
@@ -25,10 +27,22 @@ class Controller
 {
 
     /**
+     * Get the items per page count.
+     * @var int
+     */
+    public $perPage = 25;
+
+    /**
      * The model instance.
      * @var null|Model
      */
     protected $model = null;
+
+    /**
+     * Holds the module identifier.
+     * @var string
+     */
+    protected $module;
 
     /**
      * The current action name.
@@ -74,6 +88,34 @@ class Controller
     public function setModel(Model $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Get the module identifier.
+     *
+     * @return string
+     */
+    public function getModule()
+    {
+        if (!$module = $this->module) {
+            $module = app('request')->route('module');
+        }
+
+        return $module;
+    }
+
+    /**
+     * Set the module identifier.
+     *
+     * @param  string  $module
+     *
+     * @return $this
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+
+        return $this;
     }
 
     /**
@@ -151,32 +193,37 @@ class Controller
     /**
      * Set the current executing methods.
      *
-     * @param  string|array  $method
+     * @param  string|array     $method
+     * @param  int|string|null  $key
      *
      * @return $this
      */
-    public function build($method)
+    public function build($method, $key = null)
     {
         if (is_array($method)) {
-            array_map(function ($method) {
-                $this->build($method);
+            array_map(function ($method) use ($key) {
+                $this->build($method, $key);
             }, $method);
 
             return $this;
         }
 
-        $this->{'build' . studly_case($method)}();
+        // Execute the specific build method. These methods will
+        // setup the mapper and builder instances and will
+        // ultimately trigger the configure methods.
+        $this->{'build' . studly_case($method)}($key);
 
         return $this;
     }
 
+    /**
+     * Build the list view.
+     *
+     * @return $this
+     */
     protected function buildList()
     {
-        if (!method_exists($this, 'configureList')) {
-            throw new \InvalidArgumentException('Cannot configure the list.');
-        }
-
-        $this->setMapper($mapper = new ListMapper);
+        $this->setMapper($mapper = new ListMapper($this));
         $this->configureList($mapper);
 
         $this->setBuilder((new ListBuilder($this, $mapper))->build());
@@ -184,14 +231,47 @@ class Controller
         return $this;
     }
 
+    /**
+     * Build the form view.
+     *
+     * @param  int|string  $key
+     *
+     * @return $this
+     */
+    protected function buildForm($key)
+    {
+        $this->setMapper($mapper = new FormMapper($this));
+        $this->configureForm($mapper);
+
+        $this->setBuilder((new FormBuilder($this, $mapper))->build($key));
+
+        return $this;
+    }
+
     protected function buildFilters()
     {
-
+        // todo: buildFilters
     }
 
     protected function buildScopes()
     {
+        // todo: buildScopes
+    }
 
+    /**
+     * @throws \RuntimeException
+     */
+    public function configureList(Mapper $mapper)
+    {
+        throw new \RuntimeException('Please override the `configureList` method.');
+    }
+
+    /**
+     * @throws \RuntimeException
+     */
+    public function configureForm(Mapper $mapper)
+    {
+        throw new \RuntimeException('Please override the `configureForm` method.');
     }
 
     public function render($view = null)

@@ -35,6 +35,44 @@ class PageController extends Controller
      */
     public function configureList(Mapper $mapper)
     {
-        $mapper->add('text', ['name' => 'name']);
+        $mapper->add('auto-link', [
+            'name'   => 'name',
+            'label'  => 'Page name',
+            'sub-column' => function ($field) {
+                return $field->row->slug;
+            }
+        ]);
+
+        $mapper->add('label', [
+            'name'   => 'created_at',
+            'label'  => 'Created at',
+            'before' => function ($value) {
+                return $value->diffForHumans();
+            }
+        ]);
+    }
+
+    /**
+     * Configure the form view.
+     *
+     * @param  Mapper  $mapper
+     */
+    public function configureForm(Mapper $mapper)
+    {
+        $mapper->add('input.text', [
+            'name'     => 'name',
+            'label'    => 'The name of the website',
+            'validate' => 'required'
+        ]);
+
+        $mapper->add('input.text', [
+            'name'     => 'slug',
+            'validate' => 'required'
+        ]);
+
+        $mapper->add('input.checkbox', [
+            'name'  => 'is_active',
+            'label' => 'Is active?'
+        ]);
     }
 }

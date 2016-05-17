@@ -28,7 +28,7 @@ abstract class Field
      * Holds the field properties.
      * @var array
      */
-    protected $properties = [];
+    public $properties = [];
 
     /**
      * Holds the Mapper instance.
@@ -176,9 +176,7 @@ abstract class Field
 
         // Try to get call the before closure.
         if (isset($this->before) && is_callable($this->before)) {
-            $closure = $this->properties['before'];
-
-            $value = $closure($value);
+            $value = $this->properties['before']($value);
         }
 
         return $value;
@@ -193,6 +191,12 @@ abstract class Field
      */
     public function render()
     {
+        // Check for the render property. If it exists on the field instance
+        // we'll try to use the callback as the render function.
+        if (isset($this->render)) {
+            return $this->properties['render']($this);
+        }
+
         return view($this->getView(), [
             'field' => $this
         ])->render();
