@@ -25,6 +25,7 @@ return [
         /*
          * Input fields.
          */
+        'input.checkbox'  => Prosper\Core\Admin\Fields\Input\CheckboxField::class,
         'input.date'      => Prosper\Core\Admin\Fields\Input\DateField::class,
         'input.date-time' => Prosper\Core\Admin\Fields\Input\DateTimeField::class,
         'input.email'     => Prosper\Core\Admin\Fields\Input\EmailField::class,
