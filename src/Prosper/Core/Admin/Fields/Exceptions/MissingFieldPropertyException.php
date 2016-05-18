@@ -18,29 +18,29 @@ namespace Prosper\Core\Admin\Fields\Exceptions;
 class MissingFieldPropertyException extends \InvalidArgumentException
 {
 
-	/**
-	 * The name of the property.
-	 * @var null|string
-	 */
-	protected $property = null;
+    /**
+     * The name of the property.
+     * @var null|string
+     */
+    protected $property = null;
 
-	/**
-	 * MissingFieldPropertyException constructor.
-	 * 
-	 * @param  string  $property
-	 */
-	public function __construct($property)
-	{
-		$this->property = $property;
-	}
+    /**
+     * MissingFieldPropertyException constructor.
+     * 
+     * @param  string  $property
+     */
+    public function __construct($property)
+    {
+        $this->property = $property;
+    }
 
-	/**
-	 * Gets the Exception message.
-	 * 
-	 * @return string
-	 */
-	public function getMessage()
-	{
-		return sprintf('Missing field property `%s`.', $this->property);
-	}
+    /**
+     * Gets the Exception message.
+     * 
+     * @return string
+     */
+    public function getMessage()
+    {
+        return sprintf('Missing field property `%s`.', $this->property);
+    }
 }
