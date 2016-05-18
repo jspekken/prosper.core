@@ -34,6 +34,13 @@ class Page extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $with = [
+        'project'
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
