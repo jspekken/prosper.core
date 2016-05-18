@@ -11,6 +11,7 @@ namespace Prosper\Core\Admin\Builders;
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Eloquent\Model;
 use Prosper\Core\Admin\Mappers\Mapper;
 use Prosper\Core\Admin\Controller;
 
@@ -105,5 +106,25 @@ abstract class Builder
         $this->mapper = $mapper;
 
         return $this;
+    }
+
+    /**
+     * Get the related fields set on the model.
+     *
+     * @param  Model  $model
+     *
+     * @return array
+     */
+    protected function getRelations(Model $model)
+    {
+        $relations = [];
+
+        foreach ($model->getRelations() as $relation) {
+            $field = sprintf('%s_%s', str_singular($relation->getTable()), $relation->getKeyName());
+
+            $relations[$field] = $relation->getKey();
+        }
+
+        return $relations;
     }
 }
