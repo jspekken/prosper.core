@@ -11,6 +11,8 @@ namespace Prosper\Core\Admin\Fields;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Admin\Fields\Exceptions\MissingFieldPropertyException;
+
 /**
  * Class AutoLinkField
  * @package Prosper\Core\Admin\Fields
@@ -33,6 +35,10 @@ class AutoLinkField extends Field
      */
     public function getUrl()
     {
+        if (!isset($this->resource)) {
+            throw new MissingFieldPropertyException('resource');
+        }
+
         return prosper_route(sprintf('module.%s', $this->resource), [$this->getModule(), $this->key]);
     }
 }
