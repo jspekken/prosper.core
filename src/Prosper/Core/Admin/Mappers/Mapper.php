@@ -11,6 +11,7 @@ namespace Prosper\Core\Admin\Mappers;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Exceptions\Admin\MissingFieldPropertyException;
 use Prosper\Core\Admin\Controller;
 
 /**
@@ -58,7 +59,7 @@ abstract class Mapper
         $namespace = config('prosper.admin.fields')[$type];
 
         if (!isset($arguments['name'])) {
-            throw new \InvalidArgumentException('Missing field argument `name`.');
+            throw new MissingFieldPropertyException('name');
         }
 
         $this->fields->put($arguments['name'], new $namespace($this, $arguments));
