@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\Admin\Fields\Exceptions;
+namespace Prosper\Core\Exceptions\Admin;
 
 /**
  * This file is part of the Prosper/Core package.
@@ -13,7 +13,7 @@ namespace Prosper\Core\Admin\Fields\Exceptions;
 
 /**
  * Class MissingFieldPropertyException
- * @package Prosper\Core\Admin\Fields\Exceptions
+ * @package Prosper\Core\Exceptions\Admin
  */
 class MissingFieldPropertyException extends \InvalidArgumentException
 {

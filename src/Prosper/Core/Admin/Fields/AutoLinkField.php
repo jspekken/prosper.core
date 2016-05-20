@@ -11,7 +11,7 @@ namespace Prosper\Core\Admin\Fields;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\Admin\Fields\Exceptions\MissingFieldPropertyException;
+use Prosper\Core\Exceptions\MissingFieldPropertyException;
 
 /**
  * Class AutoLinkField
