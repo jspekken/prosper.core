@@ -41,7 +41,7 @@ class Springboard
                 // No project set in our session? Try again by redirecting
                 // the current user to the springboard screen.
                 if (!$project) {
-                    return redirect()->to(prosper_route('auth.springboard.index'));
+                    return redirect()->intended(prosper_route('auth.springboard.index'));
                 }
 
                 // Check to see if the user has access to the current project.
