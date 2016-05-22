@@ -69,7 +69,7 @@ abstract class Field
     {
         // Try to call the property setter methods.
         if (method_exists($this, $method = 'get' . studly_case($property))) {
-            return $this->$method();
+            return $this->$method($this);
         }
 
         return $this->properties[$property];
@@ -88,7 +88,7 @@ abstract class Field
     {
         // Try to call the property setter methods.
         if (method_exists($this, $method = 'set' . studly_case($property))) {
-            $value = $this->$method($value);
+            $value = $this->$method($this);
         }
 
         $this->properties[$property] = $value;
