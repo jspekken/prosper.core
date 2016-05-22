@@ -1,5 +1,7 @@
 <?php
 
+namespace UI;
+
 /**
  * This file is part of the Prosper/Core package.
  *
@@ -15,7 +17,7 @@ use Prosper\Core\Database\Models\User;
 /**
  * Class LoginTest
  */
-class AuthLoginTest extends TestCase
+class AuthLoginTest extends \TestCase
 {
 
     use DatabaseMigrations;
