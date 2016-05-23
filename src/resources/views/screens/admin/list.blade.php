@@ -8,7 +8,7 @@
                 <tr>
 
                     @foreach ($mapper->all() as $field)
-                        <th>{{ $field->label }}</th>
+                        @include('prosper.core::components.admin.list.head.column')
                     @endforeach
 
                 </tr>
@@ -18,9 +18,7 @@
                 @foreach ($builder->data as $row)
                     <tr>
                         @foreach ($row->fields as $field)
-                            <td>
-                                {!! $field->render() !!}
-                            </td>
+                            @include('prosper.core::components.admin.list.body.column')
                         @endforeach
                     </tr>
                 @endforeach
