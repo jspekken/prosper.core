@@ -24,7 +24,7 @@ abstract class Builder
 
     /**
      * Holds the builder data results.
-     * @var null|\Illuminate\Support\Collection
+     * @var null|\Illuminate\Support\Collection|\Prosper\Core\Admin\Support\Result
      */
     public $data = null;
 
