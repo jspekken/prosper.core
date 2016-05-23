@@ -88,7 +88,7 @@ abstract class Field
     {
         // Try to call the property setter methods.
         if (method_exists($this, $method = 'set' . studly_case($property))) {
-            $value = $this->$method($this);
+            $value = $this->$method($value, $this);
         }
 
         $this->properties[$property] = $value;
@@ -176,7 +176,7 @@ abstract class Field
 
         // Try to get call the before closure.
         if (isset($this->before) && is_callable($this->before)) {
-            $value = $this->properties['before']($value);
+            $value = $this->properties['before']($value, $this);
         }
 
         return $value;
