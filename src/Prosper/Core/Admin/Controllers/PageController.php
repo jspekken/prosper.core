@@ -46,8 +46,8 @@ class PageController extends Controller
         $mapper->add('label', [
             'name'   => 'created_at',
             'label'  => 'Created at',
-            'before' => function ($value) {
-                return $value->diffForHumans();
+            'before' => function ($field) {
+                return $field->value->diffForHumans();
             }
         ]);
     }
