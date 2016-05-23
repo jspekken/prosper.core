@@ -181,6 +181,20 @@ abstract class Field
 
         return $value;
     }
+    
+    /**
+     * Get the class property rendered as a space separated string.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        if (!isset($this->properties['class'])) {
+            return null;
+        }
+
+        return implode(' ', !is_array($class = $this->properties['class']) ? [$class] : $class);
+    }
 
     /**
      * Render the field.
