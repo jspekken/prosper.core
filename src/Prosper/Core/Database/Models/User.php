@@ -59,4 +59,14 @@ class User extends Authenticatable
 
         return sprintf('http://www.gravatar.com/avatar/%s?s=40&d=mm&r=g', $hash);
     }
+
+    /**
+     * Get the current project instance the user signed into.
+     *
+     * @return Project
+     */
+    public function project()
+    {
+        return session('prosper.project');
+    }
 }
