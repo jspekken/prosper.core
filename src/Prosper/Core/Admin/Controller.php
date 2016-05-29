@@ -219,10 +219,15 @@ class Controller
     /**
      * Build the list view.
      *
+     * @throws \RuntimeException
      * @return $this
      */
     protected function buildList()
     {
+        if (!method_exists($this, 'configureList')) {
+            throw new \RuntimeException('Please implement the `configureList` method.');
+        }
+
         $this->setMapper($mapper = new ListMapper($this));
         $this->configureList($mapper);
 
@@ -236,10 +241,15 @@ class Controller
      *
      * @param  int|string  $key
      *
+     * @throws \RuntimeException
      * @return $this
      */
     protected function buildForm($key)
     {
+        if (!method_exists($this, 'configureForm')) {
+            throw new \RuntimeException('Please implement the `configureForm` method.');
+        }
+
         $this->setMapper($mapper = new FormMapper($this));
         $this->configureForm($mapper);
 
@@ -256,22 +266,6 @@ class Controller
     protected function buildScopes()
     {
         // todo: buildScopes
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-    public function configureList(Mapper $mapper)
-    {
-        throw new \RuntimeException('Please override the `configureList` method.');
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-    public function configureForm(Mapper $mapper)
-    {
-        throw new \RuntimeException('Please override the `configureForm` method.');
     }
 
     public function render($view = null)
