@@ -268,6 +268,14 @@ class Controller
         // todo: buildScopes
     }
 
+    /**
+     * Render the admin controller.
+     *
+     * @param  string|null  $view
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function render($view = null)
     {
         return view($view ?: $this->getView())->with([
@@ -277,6 +285,12 @@ class Controller
         ])->render();
     }
 
+    /**
+     * Get the path to the view. This action can be altered
+     * by setting the `view` property on your controller.
+     *
+     * @return string
+     */
     protected function getView()
     {
         return $this->view ?: 'prosper.core::screens.admin.' . $this->getAction();
