@@ -279,6 +279,6 @@ class Controller
 
     protected function getView()
     {
-        return $this->view ?: sprintf('prosper.core::screens.admin.' . $this->getAction());
+        return $this->view ?: 'prosper.core::screens.admin.' . $this->getAction();
     }
 }
