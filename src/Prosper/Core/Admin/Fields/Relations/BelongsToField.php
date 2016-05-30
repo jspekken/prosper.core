@@ -11,6 +11,7 @@ namespace Prosper\Core\Admin\Fields\Relations;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Admin\Fields\Input\SelectField;
 use Prosper\Core\Admin\Fields\Field;
 
 /**
@@ -20,4 +21,40 @@ use Prosper\Core\Admin\Fields\Field;
 class BelongsToField extends Field
 {
 
+    /** {@inheritdoc} */
+    public function render()
+    {
+        // Set the field value.
+        $this->value = $this->row->{$this->name};
+
+        if ($this->context == Field::CONTEXT_LIST) {
+            return $this->renderList();
+        }
+
+        return $this->renderForm();
+    }
+
+    /**
+     * Render the list view.
+     *
+     * @return string
+     */
+    protected function renderList()
+    {
+        return $this->value->{$this->display};
+    }
+
+    /**
+     * Render the form view.
+     *
+     * @return string
+     */
+    protected function renderForm()
+    {
+        $options = $this->value->get()->lists($this->display, $this->value->getKeyName());
+
+        return (new SelectField($this->mapper))
+            ->setProperties($this->properties + ['options' => $options])
+            ->render();
+    }
 }
