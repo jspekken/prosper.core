@@ -106,6 +106,39 @@ abstract class Field
         return isset($this->properties[$property]);
     }
 
+    public function setProperties(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->$key = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the field context.
+     *
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set the field context.
+     *
+     * @param  string  $context
+     *
+     * @return $this
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
     /**
      * Get the Mapper instance.
      *
