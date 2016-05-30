@@ -34,6 +34,7 @@ class FormBuilder extends Builder
             $name  = $clone->name;
 
             $clone->value = isset($query->{$name}) ? $query->{$name} : null;
+            $clone->row   = $query;
 
             $result->fields->put($name, $clone);
         }
