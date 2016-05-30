@@ -219,10 +219,15 @@ class Controller
     /**
      * Build the list view.
      *
+     * @throws \RuntimeException
      * @return $this
      */
     protected function buildList()
     {
+        if (!method_exists($this, 'configureList')) {
+            throw new \RuntimeException('Please implement the `configureList` method.');
+        }
+
         $this->setMapper($mapper = new ListMapper($this));
         $this->configureList($mapper);
 
@@ -236,10 +241,15 @@ class Controller
      *
      * @param  int|string  $key
      *
+     * @throws \RuntimeException
      * @return $this
      */
     protected function buildForm($key)
     {
+        if (!method_exists($this, 'configureForm')) {
+            throw new \RuntimeException('Please implement the `configureForm` method.');
+        }
+
         $this->setMapper($mapper = new FormMapper($this));
         $this->configureForm($mapper);
 
@@ -259,21 +269,13 @@ class Controller
     }
 
     /**
-     * @throws \RuntimeException
+     * Render the admin controller.
+     *
+     * @param  string|null  $view
+     *
+     * @return mixed
+     * @throws \Exception
      */
-    public function configureList(Mapper $mapper)
-    {
-        throw new \RuntimeException('Please override the `configureList` method.');
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-    public function configureForm(Mapper $mapper)
-    {
-        throw new \RuntimeException('Please override the `configureForm` method.');
-    }
-
     public function render($view = null)
     {
         return view($view ?: $this->getView())->with([
@@ -283,8 +285,14 @@ class Controller
         ])->render();
     }
 
+    /**
+     * Get the path to the view. This action can be altered
+     * by setting the `view` property on your controller.
+     *
+     * @return string
+     */
     protected function getView()
     {
-        return $this->view ?: sprintf('prosper.core::screens.admin.' . $this->getAction());
+        return $this->view ?: 'prosper.core::screens.admin.' . $this->getAction();
     }
 }
