@@ -30,6 +30,7 @@ class AdminController extends Controller
     public function index($module)
     {
         return admin($this->getControllerNamespace($module), 'list')
+            ->setModule($module)
             ->build(['list', 'filters', 'scopes'])
             ->render();
     }
@@ -42,6 +43,7 @@ class AdminController extends Controller
     public function create($module)
     {
         return admin($this->getControllerNamespace($module), 'form')
+            ->setModule($module)
             ->build('form')
             ->render('prosper.core::screens.admin.create');
     }
@@ -58,8 +60,7 @@ class AdminController extends Controller
 
         $this->validateRequest($request, $controller);
 
-        $model = $controller->getModel();
-        $model::create($request->all());
+        $controller->getBuilder()->store($request);
 
         return redirect()->to(prosper_route('module.index', $module));
     }
@@ -84,6 +85,7 @@ class AdminController extends Controller
     public function edit($module, $key)
     {
         return admin($this->getControllerNamespace($module), 'form')
+            ->setModule($module)
             ->build('form', $key)
             ->render('prosper.core::screens.admin.edit');
     }
@@ -101,8 +103,7 @@ class AdminController extends Controller
 
         $this->validateRequest($request, $controller);
 
-        $model = $controller->getModel();
-        $model::findOrFail($key)->update($request->all());
+        $controller->getBuilder()->update($request, $key);
 
         return redirect()->to(prosper_route('module.index', $module));
     }
@@ -130,12 +131,12 @@ class AdminController extends Controller
     /**
      * Validate the controller against the request.
      *
-     * @param  Request          $request
-     * @param  AdminController  $controller
+     * @param  Request                         $request
+     * @param  \Prosper\Core\Admin\Controller  $controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    protected function validateRequest(Request $request, $controller)
+    protected function validateRequest(Request $request, \Prosper\Core\Admin\Controller $controller)
     {
         $rules = [];
 

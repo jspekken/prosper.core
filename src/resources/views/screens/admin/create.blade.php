@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ prosper_route('module.store', 'pages') }}" class="form-horizontal">
+    <form method="post" action="{{ prosper_route('module.store', $controller->getModule()) }}" class="form-horizontal">
         {{ csrf_field() }}
 
         @include('prosper.core::components.admin.form')
