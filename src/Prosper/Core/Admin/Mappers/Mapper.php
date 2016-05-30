@@ -62,7 +62,10 @@ abstract class Mapper
             throw new MissingFieldPropertyException('name');
         }
 
-        $this->fields->put($arguments['name'], new $namespace($this, $arguments));
+        $instance = new $namespace($this, $arguments);
+        $instance->setContext($this->context);
+
+        $this->fields->put($arguments['name'], $instance);
 
         return $this;
     }
