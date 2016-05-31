@@ -75,6 +75,8 @@ class BelongsToField extends Field
             return $value->get()->lists($this->display, $value->getKeyName());
         }
 
+        // We don't have a previously set value so let's try to
+        // query all the entries from our related model.
         $model = $this->getMapper()->getController()->getModel();
         $instance = new $model;
 
