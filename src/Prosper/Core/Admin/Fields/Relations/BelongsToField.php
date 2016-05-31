@@ -72,8 +72,7 @@ class BelongsToField extends Field
         if ($value = $this->value) {
             $this->selected = $value->getKey();
 
-            return $value->get()
-                ->lists($this->display, $value->getKeyName());
+            return $value->get()->lists($this->display, $value->getKeyName());
         }
 
         $model = $this->getMapper()->getController()->getModel();
