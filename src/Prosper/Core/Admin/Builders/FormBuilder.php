@@ -12,6 +12,7 @@ namespace Prosper\Core\Admin\Builders;
  */
 
 use Prosper\Core\Admin\Support\Result;
+use Illuminate\Http\Request;
 
 /**
  * Class FormBuilder
@@ -42,5 +43,73 @@ class FormBuilder extends Builder
         $this->data = $result;
 
         return $this;
+    }
+
+    /**
+     * Store the newly created model in the database.
+     *
+     * @param  Request  $request
+     *
+     * @return $this
+     */
+    public function store(Request $request)
+    {
+        $model = $this->getController()->getModel();
+
+        (new $model($request->all()))->save();
+
+        return $this;
+    }
+
+    /**
+     * Update the model.
+     *
+     * @param  Request     $request
+     * @param  int|string  $key
+     *
+     * @return $this
+     */
+    public function update(Request $request, $key)
+    {
+        $model = $this->getController()->getModel();
+
+        $instance = $model::findOrFail($key);
+        $instance->update($request->all());
+
+        // Try to save the models' relationships.
+        $this->dispatchRelationships($instance)->save();
+
+        return $this;
+    }
+
+    /**
+     * Dispatch the relationship data.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $instance
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function dispatchRelationships($instance)
+    {
+        foreach ($instance->getRelations() as $name => $relation) {
+            if ($value = request($name)) {
+                $relation = $instance->$name();
+
+                $this->{'set' . class_basename($relation) . 'Relation'}($relation, $value);
+            }
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Set a belongsTo relationship.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\Relation  $relationship
+     * @param  mixed  $value
+     */
+    protected function setBelongsToRelation($relationship, $value)
+    {
+        $relationship->associate($value);
     }
 }
