@@ -21,15 +21,25 @@ use Illuminate\Http\Request;
 class FormBuilder extends Builder
 {
 
+    /**
+     * Build the form.
+     *
+     * @param  int|string|null  $key
+     *
+     * @return $this
+     */
     public function build($key = null)
     {
         $mapper = $this->getMapper();
         $model  = $this->getController()->getModel();
         $query  = $model::find($key) ?: [];
 
+        // Create a new empty result object.
         $result = new Result;
         $result->key = $key;
 
+        // Loop over every field previously mapped in the
+        // `configureForm()` method on the controller.
         foreach ($mapper->all() as $field) {
             $clone = clone $field;
             $name  = $clone->name;
@@ -37,6 +47,7 @@ class FormBuilder extends Builder
             $clone->value = isset($query->{$name}) ? $query->{$name} : null;
             $clone->row   = $query;
 
+            // Add the field to the result object.
             $result->fields->put($name, $clone);
         }
 
