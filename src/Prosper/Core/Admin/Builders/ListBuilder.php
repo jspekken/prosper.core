@@ -20,27 +20,49 @@ use Prosper\Core\Admin\Support\Result;
 class ListBuilder extends Builder
 {
 
-    public function build()
-    {
-        $mapper = $this->getMapper();
-        $model  = $this->getController()->getModel();
+    /**
+     * Holds the paginator instance.
+     * @var null|\Illuminate\Pagination\LengthAwarePaginator
+     */
+    public $query = null;
 
+    /**
+     * Build the list.
+     *
+     * @param  null  $key
+     *
+     * @return $this
+     */
+    public function build($key = null)
+    {
+        $controller = $this->getController();
+        $mapper     = $this->getMapper();
+        $model      = $controller->getModel();
+
+        // Start building the query.
         $query = $model::with([]);
-        $query = $query->paginate();
+        $query = $query->paginate($controller->perPage);
 
         foreach ($query as $row) {
             $result = new Result;
             $result->key = $row->getKey();
 
+            // Loop over every field previously mapped in the
+            // `configureList()` method in the controller.
             foreach ($mapper->all() as $field) {
                 $clone = clone $field;
                 $name  = $clone->name;
+                $value = isset($row->{$name}) ? $row->{$name} : null;
 
-                $clone->value = $row->{$name};
+                $clone->value = $value;
+                $clone->row   = $row;
+                $clone->key   = $row->getKey();
 
+                // Add the field to the result object.
                 $result->fields->put($name, $clone);
             }
 
+            // Push the result to the dataset.
             $this->data->push($result);
         }
 

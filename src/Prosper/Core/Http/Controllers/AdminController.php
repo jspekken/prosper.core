@@ -11,8 +11,9 @@ namespace Prosper\Core\Http\Controllers;
  * file that was distributed with this source code.
  */
 
-use Illuminate\Routing\Controller;
+use Prosper\Core\Http\Routing\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 /**
  * Class AdminController
@@ -22,53 +23,89 @@ class AdminController extends Controller
 {
 
     /**
+     * @param  string  $module
+     *
      * @return Response
      */
     public function index($module)
     {
         return admin($this->getControllerNamespace($module), 'list')
+            ->setModule($module)
             ->build(['list', 'filters', 'scopes'])
             ->render();
     }
 
     /**
+     * @param  string  $module
+     *
      * @return Response
      */
-    public function create()
+    public function create($module)
     {
-        return 'create';
+        return admin($this->getControllerNamespace($module), 'form')
+            ->setModule($module)
+            ->build('form')
+            ->render('prosper.core::screens.admin.create');
     }
 
     /**
+     * @param  Request  $request
+     * @param  string   $module
+     *
      * @return Response
      */
-    public function store()
+    public function store(Request $request, $module)
+    {
+        $controller = admin($this->getControllerNamespace($module), 'form')->build('form');
+
+        $this->validateRequest($request, $controller);
+
+        $controller->getBuilder()->store($request);
+
+        return redirect()->to(prosper_route('module.index', $module));
+    }
+
+    /**
+     * @param  string      $module
+     * @param  int|string  $key
+     *
+     * @return Response
+     */
+    public function show($module, $key)
     {
 
     }
 
     /**
+     * @param  string      $module
+     * @param  int|string  $key
+     *
      * @return Response
      */
-    public function show()
+    public function edit($module, $key)
     {
-
+        return admin($this->getControllerNamespace($module), 'form')
+            ->setModule($module)
+            ->build('form', $key)
+            ->render('prosper.core::screens.admin.edit');
     }
 
     /**
+     * @param  Request     $request
+     * @param  string      $module
+     * @param  int|string  $key
+     *
      * @return Response
      */
-    public function edit()
+    public function update(Request $request, $module, $key)
     {
+        $controller = admin($this->getControllerNamespace($module), 'form')->build('form', $key);
 
-    }
+        $this->validateRequest($request, $controller);
 
-    /**
-     * @return Response
-     */
-    public function update()
-    {
+        $controller->getBuilder()->update($request, $key);
 
+        return redirect()->to(prosper_route('module.index', $module));
     }
 
     /**
@@ -79,8 +116,36 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Get the namespace to the controller set in the config file.
+     *
+     * @param  string  $module
+     *
+     * @return string
+     */
     protected function getControllerNamespace($module)
     {
         return config('prosper.admin.controllers.' . $module);
+    }
+
+    /**
+     * Validate the controller against the request.
+     *
+     * @param  Request                         $request
+     * @param  \Prosper\Core\Admin\Controller  $controller
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateRequest(Request $request, \Prosper\Core\Admin\Controller $controller)
+    {
+        $rules = [];
+
+        foreach ($controller->getBuilder()->data->fields as $field) {
+            if (isset($field->validate)) {
+                $rules[$field->name] = $field->validate;
+            }
+        }
+
+        $this->validate($request, $rules);
     }
 }

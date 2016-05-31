@@ -1,6 +1,6 @@
 <?php
 
-namespace Prosper\Core\Admin\Fields;
+namespace Prosper\Core\Admin\Fields\Input;
 
 /**
  * This file is part of the Prosper/Core package.
@@ -11,11 +11,13 @@ namespace Prosper\Core\Admin\Fields;
  * file that was distributed with this source code.
  */
 
+use Prosper\Core\Admin\Fields\Field;
+
 /**
- * Class TextField
- * @package Prosper\Core\Admin\Fields
+ * Class CheckboxField
+ * @package Prosper\Core\Admin\Fields\Input
  */
-class TextField extends Field
+class CheckboxField extends Field
 {
 
 }
