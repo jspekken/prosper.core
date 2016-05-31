@@ -25,7 +25,9 @@ class BelongsToField extends Field
     public function render()
     {
         // Set the field value.
-        $this->value = $this->row->{$this->name};
+        $this->value = $this->row
+            ? $this->row->{$this->name}
+            : null;
 
         if ($this->context == Field::CONTEXT_LIST) {
             return $this->renderList();
@@ -51,10 +53,35 @@ class BelongsToField extends Field
      */
     protected function renderForm()
     {
-        $options = $this->value->get()->lists($this->display, $this->value->getKeyName());
-
         return (new SelectField($this->mapper))
-            ->setProperties($this->properties + ['options' => $options])
+            ->setProperties($this->properties + [
+                'options'  => $this->getOptions(),
+                'selected' => $this->selected
+            ])
             ->render();
+    }
+
+    /**
+     * Get the field options.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getOptions()
+    {
+        // Do we have a value we can get the selected relation from?
+        if ($value = $this->value) {
+            $this->selected = $value->getKey();
+
+            return $value->get()
+                ->lists($this->display, $value->getKeyName());
+        }
+
+        $model = $this->getMapper()->getController()->getModel();
+        $instance = new $model;
+
+        return $instance->{$this->name}()
+            ->getRelated()
+            ->get()
+            ->lists($this->display, $instance->getKeyName());
     }
 }
