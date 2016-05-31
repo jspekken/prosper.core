@@ -15,7 +15,11 @@ use Prosper\Core\Exceptions\Admin\MissingFieldPropertyException;
 
 /**
  * Class AutoLinkField
- * @package Prosper\Core\Admin\Fields
+ *
+ * @package   Prosper\Core\Admin\Fields
+ * 
+ * @property  string      resource
+ * @property  int|string  key
  */
 class AutoLinkField extends Field
 {
