@@ -122,10 +122,15 @@ class AdminController extends Controller
      * @param  string  $module
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function getControllerNamespace($module)
     {
-        return config('prosper.admin.controllers.' . $module);
+        if (!$instance = config('prosper.admin.controllers')[$module]) {
+            throw new \InvalidArgumentException(sprintf('Could not find the `%s` module.', $module));
+        }
+
+        return $instance;
     }
 
     /**
