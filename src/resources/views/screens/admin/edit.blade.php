@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ prosper_route('module.update', [$controller->getModule(), $builder->data->key]) }}" class="form-horizontal">
+    <form method="post" action="{{ prosper_route('module.update', [$controller->getModule(), $builder->data->key]) }}">
         {{ method_field('PUT') }}
         {{ csrf_field() }}
 
