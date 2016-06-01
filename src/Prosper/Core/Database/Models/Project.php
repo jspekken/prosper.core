@@ -11,7 +11,6 @@ namespace Prosper\Core\Database\Models;
  * file that was distributed with this source code.
  */
 
-use Prosper\Core\Database\Traits\Revisionable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,8 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Project extends Model
 {
-
-    use Revisionable;
 
     /**
      * Mass-assignment protection.
@@ -32,34 +29,10 @@ class Project extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function languages()
-    {
-        return $this->hasMany(Language::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function pages()
-    {
-        return $this->hasMany(Page::class);
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
         return $this->belongsToMany(User::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function websites()
-    {
-        return $this->hasMany(Website::class);
     }
 }
