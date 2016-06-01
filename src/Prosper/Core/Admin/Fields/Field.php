@@ -43,6 +43,13 @@ abstract class Field
     protected $context = self::CONTEXT_LIST;
 
     /**
+     * When not null, this property will be used
+     * as the path to find the field view.
+     * @var null|string
+     */
+    protected $view = null;
+
+    /**
      * Field constructor.
      *
      * @param  Mapper  $mapper
@@ -256,9 +263,7 @@ abstract class Field
      */
     protected function getView()
     {
-        return property_exists($this, 'view')
-            ? $this->view
-            : sprintf('prosper.core::components.admin.fields.' . $this->disectFieldname());
+        return $this->view ?: sprintf('prosper.core::components.admin.fields.' . $this->disectFieldname());
     }
 
     /**
