@@ -200,7 +200,7 @@ abstract class Field
     {
         return isset($this->label)
             ? $this->properties['label']
-            : title_case($this->name);
+            : title_case($this->properties['name']);
     }
 
     /**
@@ -215,8 +215,12 @@ abstract class Field
         $value = $this->properties['value'];
 
         // Try to get call the before closure.
-        if (isset($this->before) && is_callable($this->before)) {
-            $value = $this->properties['before']($value, $this);
+        if (isset($this->properties['before'])) {
+            $before = $this->properties['before'];
+
+            if (is_callable($before)) {
+                $value = $before($value, $this);
+            }
         }
 
         return $value;
