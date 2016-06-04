@@ -26,9 +26,9 @@ class Result
 
     /**
      * Holds the result fields.
-     * @var \Illuminate\Support\Collection|null
+     * @var \Illuminate\Support\Collection
      */
-    public $fields = null;
+    public $fields;
 
     /**
      * Result constructor.
